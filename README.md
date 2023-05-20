@@ -1,1 +1,0 @@
-# Blue-Gravity-Studios-Interview-Task
