@@ -8,20 +8,20 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2124321784767867869}
-  - component: {fileID: 4256889821711516384}
-  - component: {fileID: 3226621483884274835}
-  - component: {fileID: -4697627760621843519}
-  - component: {fileID: 5399595366496104315}
-  - component: {fileID: -817920321875228309}
+  - component: {fileID: 2947572594490473373}
+  - component: {fileID: 2664433289085692501}
+  - component: {fileID: -4618824974031779544}
+  - component: {fileID: 8698442604495091704}
+  - component: {fileID: -8509519476808211208}
+  - component: {fileID: -2204226832577198461}
   m_Layer: 0
-  m_Name: HealthPotionItem
+  m_Name: MagentaShirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2124321784767867869
+--- !u!224 &2947572594490473373
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,9 +39,9 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1.125, y: 1.375}
+  m_SizeDelta: {x: 1.25, y: 1.375}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4256889821711516384
+--- !u!114 &2664433289085692501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,10 +54,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item:
-    itemName: HealthPotion
+    itemName: MagentaShirt
     prefab: {fileID: 761195094811380652}
-    hasEquipTag: 0
---- !u!61 &3226621483884274835
+    hasEquipTag: 1
+    shirt: 1
+    weapon: 0
+    shield: 0
+--- !u!61 &-4618824974031779544
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -74,28 +77,16 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.125, y: 1.375}
+    oldSize: {x: 1.25, y: 1.375}
     newSize: {x: 0.75, y: 0.75}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.125, y: 1.375}
+  m_Size: {x: 1.25, y: 1.375}
   m_EdgeRadius: 0
---- !u!225 &-4697627760621843519
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761195094811380652}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!222 &5399595366496104315
+--- !u!222 &8698442604495091704
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,7 +94,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761195094811380652}
   m_CullTransparentMesh: 1
---- !u!114 &-817920321875228309
+--- !u!114 &-8509519476808211208
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +114,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a6487449aecc9f4ca5d21e978b2b94b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9af58e43683d1654584855963aa20ebf, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -133,3 +124,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &-2204226832577198461
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 761195094811380652}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
