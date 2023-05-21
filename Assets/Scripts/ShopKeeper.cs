@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class ShopKeeper : MonoBehaviour
 {
-    public GameObject shopObject;
-    public GameObject menuObject;
-    public GameObject inventoryObject;
-    public GameObject menuStuff;
-    public KeyCode interactKey = KeyCode.E;
-    public KeyCode cancelKey = KeyCode.Escape;
+    [SerializeField] private GameObject shopObject;
+    [SerializeField] private GameObject menuObject;
+    [SerializeField] private GameObject inventoryObject;
+    [SerializeField] private GameObject menuStuff;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private KeyCode cancelKey = KeyCode.Escape;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip cashRegisterSound;
 
     private bool isPlayerInsideTrigger = false;
     private bool isMenuOpen = false;
-    private bool wasPlayerControllable = false;
 
     private void Update()
     {
@@ -48,6 +49,12 @@ public class ShopKeeper : MonoBehaviour
                 CloseShopMenu();
             }
         }
+    }
+
+    private void PlayCashRegisterSound()
+    {
+        audioSource.clip = cashRegisterSound;
+        audioSource.Play();
     }
 
     private void OpenShopMenu()

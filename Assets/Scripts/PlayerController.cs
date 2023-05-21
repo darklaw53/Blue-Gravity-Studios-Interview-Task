@@ -1,65 +1,74 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : Singleton<PlayerController>
 {
-    public float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private Animator anim;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip runningSound;
+
     public bool canMove = true;
+    
+    private bool lookingRight;
+    private Vector2 movement;
 
-    public Rigidbody2D rb;
-    public Animator anim;
-
-    bool lookingRight;
-    float currentSpeed;
-    Vector2 movement;
-
-    void Update()
+    private void Update()
     {
-        if (canMove)
+        if (!canMove)
         {
-            movement.x = Input.GetAxisRaw("Horizontal");
-            movement.y = Input.GetAxisRaw("Vertical");
-        }
-        else
-        {
-            movement.x = 0;
-            movement.y = 0;
+            movement = Vector2.zero;
+            return;
         }
 
-        currentSpeed = movement.sqrMagnitude;
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+
+        if (movement.sqrMagnitude > 0 && !audioSource.isPlaying)
+        {
+            PlayRunningSound();
+        }
+        else if (movement.sqrMagnitude == 0)
+        {
+            StopRunningSound();
+        }
+    }
+
+    private void PlayRunningSound()
+    {
+        audioSource.clip = runningSound;
+        audioSource.Play();
+    }
+
+    private void StopRunningSound()
+    {
+        audioSource.Stop();
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+        UpdateAnimation();
+        FlipPlayer();
+    }
+
+    private void MovePlayer()
+    {
+        movement = movement.normalized;
+        rb.velocity = movement * moveSpeed;
+    }
+
+    private void UpdateAnimation()
+    {
+        anim.SetBool("Running", movement.sqrMagnitude > 0);
     }
 
     private void FlipPlayer()
     {
-        lookingRight = !lookingRight;
-        if (!lookingRight)
-        {
-            gameObject.transform.localScale = new Vector3(1, 1, 1);
-        }
-        else
-        {
-            gameObject.transform.localScale = new Vector3(-1, 1, 1);
-        }
-    }
-
-    void FixedUpdate()
-    {
-        movement = movement.normalized;
-        rb.velocity = movement * moveSpeed;
-
-        if (currentSpeed > 0)
-        {
-            anim.SetBool("Running", true);
-        }
-        else
-        {
-            anim.SetBool("Running", false);
-        }
-
         if ((movement.x > 0 && !lookingRight) || (movement.x < 0 && lookingRight))
         {
-            FlipPlayer();
+            lookingRight = !lookingRight;
+            transform.localScale = new Vector3(lookingRight ? -1 : 1, 1, 1);
         }
     }
 }
