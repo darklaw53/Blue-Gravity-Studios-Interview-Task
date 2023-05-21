@@ -60,6 +60,7 @@ MonoBehaviour:
     shirt: 1
     weapon: 0
     shield: 0
+    equippedSlot: {fileID: 0}
 --- !u!61 &-4618824974031779544
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9af58e43683d1654584855963aa20ebf, type: 3}
+  m_Sprite: {fileID: 2093731200, guid: 011001cbbc167a646b1d80c528f284e2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -133,6 +134,6 @@ CanvasGroup:
   m_GameObject: {fileID: 761195094811380652}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
+  m_Interactable: 0
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

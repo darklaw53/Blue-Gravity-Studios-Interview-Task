@@ -9,5 +9,15 @@ public class Item
     public GameObject prefab;
     public bool hasEquipTag, shirt, weapon, shield;
 
-    // Add any additional properties or methods for the item as needed
+    [HideInInspector] public Transform equippedSlot;
+
+    public void Equip(Transform slot)
+    {
+        equippedSlot = slot;
+    }
+
+    public void Unequip()
+    {
+        equippedSlot = null;
+    }
 }

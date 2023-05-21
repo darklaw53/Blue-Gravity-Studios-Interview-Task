@@ -1,45 +1,48 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryHandler : Singleton<InventoryHandler>
 {
-    public GameObject inventoryScreen;
-    public Transform gridParent;
-    public List<Item> inventoryItems = new List<Item>();
-    //public List<Transform> equipSlots = new List<Transform>();
-    public Transform shirtSlot;
-    public Transform swordSlot;
-    public Transform shieldSlot;
-    public List shirt, sword, shield;
-
-    public Transform shirtSpot, swordSlot, shieldSlot;
-    public GameObject YellowShirt, GreenShirt, MagentaShirt, Sword, Shield;
+    [SerializeField] private GameObject inventoryScreen;
+    [SerializeField] private Transform gridParent;
+    [SerializeField] private List<Item> inventoryItems = new List<Item>();
+    [SerializeField] private Transform swordSlot;
+    [SerializeField] private Transform shieldSlot;
+    [SerializeField] private Transform shirtSlot;
+    [SerializeField] private Item shirt;
+    [SerializeField] private Item sword;
+    [SerializeField] private Item shield;
+    [SerializeField] private GameObject startingOutfit;
 
     private bool isInventoryOpen = false;
     private List<Transform> itemSlots = new List<Transform>();
 
     private void Start()
     {
-        // Hide the inventory screen initially
-        inventoryScreen.SetActive(false);
-
-        // Get all item slots in the grid parent
-        foreach (Transform child in gridParent.GetComponentsInChildren<Transform>(true))
-        {
-            if (child != gridParent)
-            {
-                itemSlots.Add(child);
-            }
-        }
+        InitializeInventory();
+        EquipStartingOutfit();
     }
 
     private void Update()
     {
-        // Open or close the inventory screen
         if (Input.GetKeyDown(KeyCode.I))
         {
             ToggleInventoryScreen();
         }
+    }
+
+    private void InitializeInventory()
+    {
+        inventoryScreen.SetActive(false);
+        GetItemSlots();
+    }
+
+    private void EquipStartingOutfit()
+    {
+        Item startingItem = startingOutfit.GetComponent<ItemDragHandler>().item;
+        EquipItem(startingItem, shirtSlot, "GreenShirt");
+        AddItemToInventory(startingItem);
     }
 
     public void ToggleInventoryScreen()
@@ -49,7 +52,6 @@ public class InventoryHandler : Singleton<InventoryHandler>
 
         if (isInventoryOpen)
         {
-            // Display inventory items on the grid
             DisplayInventoryItems();
         }
     }
@@ -61,25 +63,18 @@ public class InventoryHandler : Singleton<InventoryHandler>
 
     private void DisplayInventoryItems()
     {
-        // Clear all existing items from the grid
         ClearGrid();
 
-        // Display the inventory items on the grid
         for (int i = 0; i < inventoryItems.Count; i++)
         {
             Item item = inventoryItems[i];
-
-            // Create a new item slot
             Transform slot = itemSlots[i];
 
-            // Instantiate and position the item's prefab in the slot
             GameObject itemPrefab = Instantiate(item.prefab, slot);
             itemPrefab.transform.localPosition = Vector3.zero;
-            /*
-            // Attach the ItemDragHandler script to the item's prefab
-            ItemDragHandler dragHandler = itemPrefab.AddComponent<ItemDragHandler>();
-            dragHandler.item = item;
-            dragHandler.inventoryHandler = this; */
+
+            Image image = itemPrefab.GetComponent<Image>();
+            image.raycastTarget = true;
         }
     }
 
@@ -90,51 +85,76 @@ public class InventoryHandler : Singleton<InventoryHandler>
 
     public void EquipItem(Item item, Transform spot, string type)
     {
-        // Check if there is an existing object in the equip slot
-        if (spot.childCount > 0)
+        Transform existingItem = spot.GetChild(0);
+        if (existingItem != null)
         {
-            // Remove the existing object from the equip slot
-            Transform existingItem = spot.GetChild(0);
             Destroy(existingItem.gameObject);
         }
 
-        // Instantiate and position the item's prefab in the equip slot
         GameObject itemPrefab = Instantiate(item.prefab, spot);
         itemPrefab.transform.localPosition = Vector3.zero;
 
-        if (type = "YellowShirt")
-        {
-            if (shirtSlot.childCount > 0)
-            {
-                // Remove the existing object from the equip slot
-                Transform existingItem = shirtSlot.GetChild(0);
-                Destroy(existingItem.gameObject);
-            }
+        Image image = itemPrefab.GetComponent<Image>();
+        image.raycastTarget = false;
 
-            GameObject itemPrefab = Instantiate(YellowShirt, shirtSpot);
-            itemPrefab.transform.localPosition = Vector3.zero;
+        switch (type)
+        {
+            case "YellowShirt":
+                OutfitSwap.Instance.SwapOutfit("Yellow");
+                break;
+            case "MagentaShirt":
+                OutfitSwap.Instance.SwapOutfit("Magenta");
+                break;
+            case "GreenShirt":
+                OutfitSwap.Instance.SwapOutfit("Green");
+                break;
         }
     }
-    /*
-    private Transform GetAvailableEquipSlot()
+
+    public void UnEquipItem(Item item)
     {
-        foreach (Transform slot in equipSlots)
+        if (item != null && item.equippedSlot != null)
         {
-            // If the slot is empty, return it
-            if (slot.childCount == 0)
-            {
-                return slot;
-            }
+            Destroy(item.equippedSlot.gameObject);
+            item.equippedSlot = null;
+        }
+    }
+
+    public Item GetItemInSlot(Transform slot)
+    {
+        if (slot == null)
+        {
+            Debug.LogWarning("Slot transform is null.");
+            return null;
         }
 
-        return null; // No available equip slot found
-    }*/
+        if (slot.childCount > 0)
+        {
+            Item item = slot.GetChild(0).GetComponent<ItemDragHandler>()?.item;
+            return item;
+        }
+
+        return null;
+    }
+
+    private void GetItemSlots()
+    {
+        itemSlots.Clear();
+
+        foreach (Transform child in gridParent)
+        {
+            if (child != gridParent)
+
+            {
+                itemSlots.Add(child);
+            }
+        }
+    }
 
     private void ClearGrid()
     {
         foreach (Transform slot in itemSlots)
         {
-            // Destroy any existing item in the slot
             if (slot.childCount > 0)
             {
                 Destroy(slot.GetChild(0).gameObject);

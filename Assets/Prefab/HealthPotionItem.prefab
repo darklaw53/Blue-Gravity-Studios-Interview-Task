@@ -57,6 +57,10 @@ MonoBehaviour:
     itemName: HealthPotion
     prefab: {fileID: 761195094811380652}
     hasEquipTag: 0
+    shirt: 0
+    weapon: 0
+    shield: 0
+    equippedSlot: {fileID: 0}
 --- !u!61 &3226621483884274835
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -117,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
