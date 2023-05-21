@@ -4,10 +4,10 @@ public class ShopKeeper : MonoBehaviour
 {
     public GameObject shopObject;
     public GameObject menuObject;
+    public GameObject inventoryObject;
     public GameObject menuStuff;
     public KeyCode interactKey = KeyCode.E;
     public KeyCode cancelKey = KeyCode.Escape;
-    public PlayerController player;
 
     private bool isPlayerInsideTrigger = false;
     private bool isMenuOpen = false;
@@ -53,21 +53,18 @@ public class ShopKeeper : MonoBehaviour
     private void OpenShopMenu()
     {
         isMenuOpen = true;
-        player.canMove = false;
+        PlayerController.Instance.canMove = false;
         menuObject.SetActive(true);
         shopObject.SetActive(false);
-
-        Debug.Log("Shop menu opened");
+        inventoryObject.SetActive(false);
     }
 
     private void CloseShopMenu()
     {
         isMenuOpen = false;
-        player.canMove = true;
+        PlayerController.Instance.canMove = true;
         menuStuff.SetActive(false);
         menuObject.SetActive(false);
         shopObject.SetActive(true);
-
-        Debug.Log("Shop menu closed");
     }
 }

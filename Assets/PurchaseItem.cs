@@ -23,12 +23,6 @@ public class PurchaseItem : MonoBehaviour
             // Add the item to the inventory
             Item item = itemGO.GetComponent<ItemDragHandler>().item;
             InventoryHandler.Instance.AddItemToInventory(item);
-
-            Debug.Log("Item bought and added to the inventory.");
-        }
-        else
-        {
-            Debug.Log("Not enough gold to buy the item.");
         }
     }
 }

@@ -7,14 +7,15 @@ public class InventoryHandler : Singleton<InventoryHandler>
     [SerializeField] private GameObject inventoryScreen;
     [SerializeField] private Transform gridParent;
     [SerializeField] private List<Item> inventoryItems = new List<Item>();
-    [SerializeField] private Transform swordSlot;
-    [SerializeField] private Transform shieldSlot;
-    [SerializeField] private Transform shirtSlot;
     [SerializeField] private Item shirt;
     [SerializeField] private Item sword;
     [SerializeField] private Item shield;
     [SerializeField] private GameObject startingOutfit;
 
+    public Transform shieldSlot;
+    public Transform swordSlot;
+    public Transform shirtSlot;
+    
     private bool isInventoryOpen = false;
     private List<Transform> itemSlots = new List<Transform>();
 
@@ -54,6 +55,10 @@ public class InventoryHandler : Singleton<InventoryHandler>
         {
             DisplayInventoryItems();
         }
+        else
+        {
+            PlayerController.Instance.canMove = true;
+        }
     }
 
     public void AddItemToInventory(Item item)
@@ -63,6 +68,8 @@ public class InventoryHandler : Singleton<InventoryHandler>
 
     private void DisplayInventoryItems()
     {
+        PlayerController.Instance.canMove = false;
+
         ClearGrid();
 
         for (int i = 0; i < inventoryItems.Count; i++)
@@ -124,7 +131,6 @@ public class InventoryHandler : Singleton<InventoryHandler>
     {
         if (slot == null)
         {
-            Debug.LogWarning("Slot transform is null.");
             return null;
         }
 
